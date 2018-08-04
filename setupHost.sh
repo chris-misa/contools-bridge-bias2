@@ -7,8 +7,8 @@
 #
 
 # Copy in config files
-mkdir /etc/docker
-cp config/daemon /etc/docker/
+mkdir -p /etc/docker
+cp config/daemon.json /etc/docker/
 cp config/ndppd.conf /etc/
 
 # Get dependencies for host system from deb
