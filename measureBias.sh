@@ -31,9 +31,19 @@ export CONTAINER_PING="docker exec $CONTAINER_NAME ping"
 
 # Argument sequence is an associative array
 # between file suffixes and argument strings
-declare -A ARG_SEQ=(
-  ["i0.5s16.ping"]="-c 3 -i 0.5 -s 16"
-)
+declare -a INTERVALS=(0.1 0.3 0.5 1.0)
+declare -a SIZES=(16 56 120)
+declare -A ARG_SEQ
+for i in ${INTERVALS[@]}
+do
+  for s in ${SIZES[@]}
+  do
+    for n in {1..20}
+    do
+      ARG_SEQ["i${i}_s${s}_${n}.ping"]="-c 30 -i $i -s $s"
+    done
+  done
+done
 
 # Tag for data directory
 export DATE_TAG=`date +%Y%m%d%H%M%S`
