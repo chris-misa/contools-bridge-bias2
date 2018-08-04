@@ -8,12 +8,12 @@
 #
 
 # Address to ping to
-export TARGET_IPV4="216.58.216.142"
-export TARGET_IPV6="2607:f8b0:400a:808::200e"
+export TARGET_IPV4="10.10.1.2"
+export TARGET_IPV6="fd41:98cb:a6ff:5a6a::2"
 
 # Address of hosts' network-facing interface
-export HOST_IPV4="10.0.0.204"
-export HOST_IPV6="2601:1c0:cb03:1a9d:ed67:a995:42ab:e58a"
+export HOST_IPV4="10.10.1.1"
+export HOST_IPV6="fd41:98cb:a6ff:5a6a::1"
 
 # Address assigned to container's end of the veth
 export CONTAINER_IPV4
@@ -21,8 +21,8 @@ export CONTAINER_IPV6
 
 
 # Native (local) ping command
-export NATIVE_PING="${HOME}/Dep/iputils/ping"
-export NATIVE_DEV="wlp2s0"
+export NATIVE_PING="$(pwd)/iputils/ping"
+export NATIVE_DEV="eno1d1"
 
 # Container ping command
 export PING_IMAGE_NAME="chrismisa/contools:ping"
@@ -90,31 +90,31 @@ do
   echo "  host -> target"
   $LITTLE_SLEEP
   $NATIVE_PING ${ARG_SEQ[$i]} $TARGET_IPV4 \
-    > native_target_v4_$i
+    > v4_native_target_$i
 
   # container -> target
   echo "  container -> target"
   $LITTLE_SLEEP
   $CONTAINER_PING ${ARG_SEQ[$i]} $TARGET_IPV4 \
-    > container_target_v4_$i
+    > v4_container_target_$i
 
   # container -> host
   echo "  container -> host"
   $LITTLE_SLEEP
   $CONTAINER_PING ${ARG_SEQ[$i]} $HOST_IPV4 \
-    > container_host_v4_$i
+    > v4_container_host_$i
    
   # container -> container
   echo "  container -> container"
   $LITTLE_SLEEP
   $CONTAINER_PING ${ARG_SEQ[$i]} $CONTAINER_IPV4 \
-    > container_container_v4_$i
+    > v4_container_container_$i
 
   # host -> host
   echo "  host -> host"
   $LITTLE_SLEEP
   $NATIVE_PING ${ARG_SEQ[$i]} $HOST_IPV4 \
-    > host_host_v4_$i
+    > v4_host_host_$i
 
   # IPv6 Tests
   echo $B Running IPv6 measurements for $i $B
@@ -124,31 +124,31 @@ do
   echo "  host -> target"
   $LITTLE_SLEEP
   $NATIVE_PING -6 ${ARG_SEQ[$i]} $TARGET_IPV6 \
-    > native_target_v6_$i
+    > v6_native_target_$i
 
   # container -> target
   echo "  container -> target"
   $LITTLE_SLEEP
   $CONTAINER_PING -6 ${ARG_SEQ[$i]} $TARGET_IPV6 \
-    > container_target_v6_$i
+    > v6_container_target_$i
 
   # container -> host
   echo "  container -> host"
   $LITTLE_SLEEP
   $CONTAINER_PING -6 ${ARG_SEQ[$i]} $HOST_IPV6 \
-    > container_host_v6_$i
+    > v6_container_host_$i
    
   # container -> container
   echo "  container -> container"
   $LITTLE_SLEEP
   $CONTAINER_PING -6 ${ARG_SEQ[$i]} $CONTAINER_IPV6 \
-    > container_container_v6_$i
+    > v6_container_container_$i
 
   # host -> host
   echo "  host -> host"
   $LITTLE_SLEEP
   $NATIVE_PING -6 ${ARG_SEQ[$i]} $HOST_IPV6 \
-    > host_host_v6_$i
+    > v6_host_host_$i
 done
 
 # Clean up
